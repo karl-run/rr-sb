@@ -1,5 +1,8 @@
 import React from 'react'
 import ReactHowler from 'react-howler'
+import Header from './components/header/Header'
+import Playing from './components/playing/Playing'
+import List from './components/grid/Grid'
 
 const STATIC_URL = 'https://static.rr.karl.run'
 
@@ -19,18 +22,24 @@ const App = () => {
 
   return (
     <div>
+      <Header />
+      <List jingles={jingles} />
+      <Playing />
       <div>
         Spiller nå:{' '}
         {playingIndex != null ? Object.keys(jingles)[playingIndex] : 'Itj nå'}
       </div>
       {Object.keys(jingles).map((key, index) => (
-        <div>
+        <div key={key}>
           <div>{key}</div>
           <ReactHowler
-            preload
+            preload={false}
             src={STATIC_URL + jingles[key]}
             playing={index === playingIndex}
             onEnd={() => setPlaying(null)}
+            onLoad={it => {
+              console.log(key)
+            }}
           />
           <button
             onClick={() => {
